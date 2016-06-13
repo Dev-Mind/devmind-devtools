@@ -1,6 +1,6 @@
 # Squelete de webapp (Spring Boot / appli JS)
 
-![Dev-Mind](dm-client/app/images/logo_long_1400.png)
+![Dev-Mind](dm-client/app/images/logo_new.png)
 
 Ce projet est là pour illustrer l'article sur le même sujet sur le blog [http://javamind-fr.blogspot.fr/](http://javamind-fr.blogspot.fr/).
 
