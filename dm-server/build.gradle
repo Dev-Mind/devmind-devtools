@@ -1,0 +1,29 @@
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'devmind-devtools'
+    version = '0.0.1-SNAPSHOT'
+}
+
+springBoot {
+    mainClass = 'com.devmind.devtools.DevMindApplication'
+}
+
+bootRun {
+    addResources = true
+}
+
+dependencies {
+    //We want to use a Spring Boot
+    compile "org.springframework.boot:spring-boot-starter"
+    //Our app is a webapp
+    compile "org.springframework.boot:spring-boot-starter-web"
+
+    //For dev we use the devtools to automatically restart the app on file updates
+    compile "org.springframework.boot:spring-boot-devtools"
+    compile "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile project(':dm-client')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

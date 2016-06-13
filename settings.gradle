@@ -1,0 +1,3 @@
+rootProject.name = 'devmind-devtools'
+
+include 'dm-client', 'dm-server'

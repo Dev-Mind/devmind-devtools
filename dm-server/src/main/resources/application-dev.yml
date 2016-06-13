@@ -1,0 +1,12 @@
+spring:
+  resources:
+    static-locations:
+      - classpath:/static/
+      - file:../dm-client/app/
+      - file:../dm-client/build/.tmp/
+  devtools:
+    restart:
+      additional-paths:
+        - ../dm-client/app/
+        - ../dm-client/build/.tmp/
+      additional-exclude: "**/*.js, **/*.css"

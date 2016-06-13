@@ -1,0 +1,6 @@
+# Active the server compression for the JS scripts and stylesheets.
+server:
+  compression:
+    enabled: true
+    mime-types: application/json,text/css,application/javascript
+    min-response-size: 2048
