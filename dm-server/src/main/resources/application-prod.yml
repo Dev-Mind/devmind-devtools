@@ -1,7 +1,0 @@
-spring:
-  resources:
-    chain:
-      strategy:
-        content:
-          enabled: true
-    cache-period: 86400

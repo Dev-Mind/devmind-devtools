@@ -1,6 +1,40 @@
+devmind:
+  storage:
+    directory: classpath:raw/
+    sessionFilename: sessions.json
+    speakerFilename: speakers.json
+
 # Active the server compression for the JS scripts and stylesheets.
 server:
   compression:
     enabled: true
     mime-types: application/json,text/css,application/javascript
     min-response-size: 2048
+
+
+---
+spring:
+  profiles: dev
+  resources:
+    static-locations:
+      - classpath:/static/
+      - file:../dm-client/app/
+      - file:../dm-client/build/.tmp/
+  devtools:
+    restart:
+      additional-paths:
+        - ../dm-client/app/
+        - ../dm-client/build/.tmp/
+      additional-exclude: "**/*.js, **/*.css"
+
+---
+spring:
+  profiles: prod
+  resources:
+    static-locations:
+        - classpath:/static/
+    chain:
+      strategy:
+        content:
+          enabled: true
+    cache-period: 86400

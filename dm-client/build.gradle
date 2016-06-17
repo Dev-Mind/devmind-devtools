@@ -17,19 +17,14 @@ jar {
     eachFile { details ->
         details.path = details.path.startsWith('META-INF') ?: 'static/'+details.path
     }
-    // Jar contains duplicate empty folders, see Gradle issue:
-    // http://issues.gradle.org/browse/GRADLE-1830
-    // so we need to set includeEmptyDirs to false
     includeEmptyDirs = false
 
 }
 
-println jsBuildDir
-
-task npmBuild(dependsOn: npmInstall, type: NpmTask) {
+task gulp(dependsOn: npmInstall, type: NpmTask) {
     inputs.file 'gulpfile.babel.js'
     outputs.dir jsBuildDir
     args = ['run', 'build']
 }
 
-jar.dependsOn npmBuild
+jar.dependsOn gulp
