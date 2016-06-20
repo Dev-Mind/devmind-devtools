@@ -35,9 +35,8 @@
 </head>
 <body>
 <header>
-    <a href="#">Link 1 </a>
-    <a href="#">Link 2 </a>
-    <a href="#">Link 3 </a>
+    <a href="#" onClick="app.go('session')">Sessions</a>
+    <a href="#" onClick="app.go('speaker')">Speakers</a>
 </header>
 <main>
     <h1>Utilisez Spring Boot DevTools avec Dev-Mind</h1>
@@ -51,18 +50,28 @@
     <p class="logo">
         <img src="images/logo_new.png" class="img-responsive" width="50%" alt="Dev-Mind">
     </p>
-
-    <p>
-        oupsvvvgg
-    </p>
+    <div id="dmContent"></div>
 </main>
 <footer>
     All right reserved - @2016 Guillaume EHRET
 </footer>
 
-<!-- build:js scripts/main.min.js -->
-<script src="scripts/main.js"></script>
+<!-- build:js scripts/vendors.min.js -->
+<script src="scripts/vendors/polyfill.js"></script>
+<script src="scripts/vendors/system.js"></script>
 <!-- endbuild -->
+
+<script>
+    var app;
+    System.import('./scripts/app.js').then(
+            function(module){
+                app = new module.Application();
+            },
+            function(e){
+                console.error('Error on loading', e);
+            }
+    );
+</script>
 
 </body>
 </html>

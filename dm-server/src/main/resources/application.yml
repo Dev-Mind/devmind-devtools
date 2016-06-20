@@ -17,7 +17,6 @@ spring:
   profiles: dev
   resources:
     static-locations:
-      - classpath:/static/
       - file:../dm-client/app/
       - file:../dm-client/build/.tmp/
   devtools:
@@ -25,7 +24,7 @@ spring:
       additional-paths:
         - ../dm-client/app/
         - ../dm-client/build/.tmp/
-      additional-exclude: "**/*.js, **/*.css"
+      additional-exclude: "**/*.js, **/*.css, **/*.html"
 
 ---
 spring:

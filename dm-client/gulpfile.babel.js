@@ -37,9 +37,11 @@ import pkg from './package.json';
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
+//TODO js for modularity
+
 // Lint JavaScript
 gulp.task('lint', () =>
-  gulp.src('app/scripts/**/*.js')
+  gulp.src('app/src/**/*.js')
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.if(!browserSync.active, $.eslint.failOnError()))
@@ -112,17 +114,19 @@ gulp.task('styles', () => {
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
 // `.babelrc` file.
-gulp.task('scripts', () =>
+gulp.task('scripts', ['vendors-scripts'], () =>
     gulp.src([
       // Note: Since we are not using useref in the scripts build pipeline,
       //       you need to explicitly list your scripts here in the right order
       //       to be correctly concatenated
-      './app/scripts/**/*.js'
+      './app/src/**/*.js'
       // Other scripts
     ])
       .pipe($.newer('build/.tmp/scripts'))
       .pipe($.sourcemaps.init())
-      .pipe($.babel())
+      .pipe($.babel({
+        "plugins": ["transform-es2015-modules-systemjs"]
+      }))
       .pipe($.sourcemaps.write())
       .pipe(gulp.dest('build/.tmp/scripts'))
       .pipe($.concat('main.min.js'))
@@ -132,6 +136,25 @@ gulp.task('scripts', () =>
       .pipe($.sourcemaps.write('.'))
       .pipe(gulp.dest('build/dist/scripts'))
 );
+
+// Copy over the scripts that are used in importScripts as part of the generate-service-worker task.
+gulp.task('vendors-scripts', () => {
+  return gulp.src(
+    [
+      'node_modules/babel-polyfill/dist/polyfill.js',
+      'node_modules/systemjs/dist/system.js',
+      'node_modules/es6-module-loader/dist/es6-module-loader.js'
+    ])
+    .pipe($.newer('build/.tmp/scripts/vendors'))
+    .pipe(gulp.dest('build/.tmp/scripts/vendors'))
+    .pipe($.sourcemaps.init())
+    .pipe($.concat('vendors.min.js'))
+    .pipe($.uglify())
+    // Output files
+    .pipe($.size({title: 'scripts'}))
+    .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest('build/dist/scripts'));
+});
 
 // Scan your HTML for assets & optimize them
 gulp.task('html', () => {
@@ -165,7 +188,7 @@ gulp.task('clean', () => del(['build/.tmp', 'build/dist/*', '!build/dist/.git'],
 gulp.task('watch', ['scripts', 'styles'], () => {
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js'], ['lint', 'scripts']);
+  gulp.watch(['app/src/**/*.js'], ['lint', 'scripts']);
   gulp.watch(['app/images/**/*'], reload);
 });
 
@@ -181,7 +204,7 @@ gulp.task('serve', ['scripts', 'styles', 'watch'], () => {
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: ['build/.tmp', 'app'],
+    server: ['app', 'build/.tmp'],
     port: 3000
   });
 });
@@ -225,7 +248,7 @@ gulp.task('pagespeed', cb =>
 
 // Copy over the scripts that are used in importScripts as part of the generate-service-worker task.
 gulp.task('copy-sw-scripts', () => {
-  return gulp.src(['node_modules/sw-toolbox/sw-toolbox.js', 'app/scripts/sw/runtime-caching.js'])
+  return gulp.src(['node_modules/sw-toolbox/sw-toolbox.js', 'app/src/sw/runtime-caching.js'])
     .pipe(gulp.dest('build/dist/scripts/sw'));
 });
 
