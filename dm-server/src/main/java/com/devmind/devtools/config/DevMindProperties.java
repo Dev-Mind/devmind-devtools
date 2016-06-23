@@ -20,25 +20,15 @@ public class DevMindProperties {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    private String directory;
     private String speakerFilename;
     private String sessionFilename;
 
-    public String getDirectory() {
-        return directory;
-    }
-
-    public DevMindProperties setDirectory(String directory) {
-        this.directory = directory;
-        return this;
-    }
-
     public <T extends Identifiable> File getDataFile(Class<T> type) throws IOException {
         if (type.equals(Session.class)) {
-            return resourceLoader.getResource(getDirectory().concat(getSessionFilename())).getFile();
+            return resourceLoader.getResource(getSessionFilename()).getFile();
         }
         else if (type.equals(Speaker.class)) {
-            return resourceLoader.getResource(getDirectory().concat(getSpeakerFilename())).getFile();
+            return resourceLoader.getResource(getSpeakerFilename()).getFile();
         }
         throw new IllegalArgumentException(String.format("Data file not known for type [%s]", type));
     }

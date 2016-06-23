@@ -1,3 +1,7 @@
+@import 'colors';
+@import 'speaker/speaker';
+@import 'session/session';
+
 html, body {
   display: flex;
   flex-direction: column;
@@ -11,9 +15,9 @@ body{
 }
 
 header {
+  @include dm_shadow();
   flex: 0 0 64px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  background-color: #0288d1;
+  background-color: $color_primary;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -21,7 +25,7 @@ header {
 
 header > a {
   color: white;
-  background-color: #0288d1;
+  background-color: $color_primary;
   text-decoration: none;
   text-transform: uppercase;
   padding: 0 1em;
@@ -36,7 +40,7 @@ main {
 
 footer {
   flex: 0 1;
-  background-color: #424242;
+  background-color: $color_dark;
   color: white;
   padding: 1em;
 }
@@ -44,6 +48,7 @@ footer {
 .logo{
   text-align: center;
 }
+
 img{
   max-width: 100%;
   height: auto;

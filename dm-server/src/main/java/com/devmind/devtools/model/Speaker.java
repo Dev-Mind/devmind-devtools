@@ -127,15 +127,16 @@ public class Speaker implements Identifiable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Speaker member = (Speaker) o;
-        return Objects.equals(id, member.id) &&
-                Objects.equals(login, member.login);
+        Speaker speaker = (Speaker) o;
+        return Objects.equals(id, speaker.id) &&
+                Objects.equals(login, speaker.login) &&
+                Objects.equals(email, speaker.email) &&
+                Objects.equals(firstname, speaker.firstname) &&
+                Objects.equals(lastname, speaker.lastname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login);
+        return Objects.hash(id, login, email, firstname, lastname);
     }
-
-
 }

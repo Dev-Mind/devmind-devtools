@@ -31,16 +31,16 @@
     <!-- Color the status bar on mobile devices -->
     <meta name="theme-color" content="#2F3BA2">
 
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/app.css">
 </head>
 <body>
 <header>
-    <a href="#" onClick="app.go('session')">Sessions</a>
-    <a href="#" onClick="app.go('speaker')">Speakers</a>
+    <a href="#session" onClick="app.go('session')">Sessions</a>
+    <a href="#speaker" onClick="app.go('speaker')">Speakers</a>
 </header>
 <main>
     <h1>Utilisez Spring Boot DevTools avec Dev-Mind</h1>
-    <p>
+    <p class="dm_lead">
         Cette application exemple a &eacute;t&eacute; g&eacute;n&eacute;r&eacute;e avec <a href="https://developers.google.com/web/tools/starter-kit/">Google
         Web Kit Starter</a>.
         Le but est de montrer comment on peut utiliser Spring Dev Tools et le rechargement automatique de votre webapp
@@ -62,6 +62,7 @@
 <!-- endbuild -->
 
 <script>
+    console.log('AAA',window.document.getElementById('dmContent'))
     var app;
     System.import('./scripts/app.js').then(
             function(module){

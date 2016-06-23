@@ -1,8 +1,11 @@
 {
   "env": {
-    "es6": true
+    "es6": true,
+    "browser": true
   },
-  "global": "self",
+  "global": {
+    "fetch": true
+  },
   "rules": {
     "require-jsdoc": 0,
     "max-len": [

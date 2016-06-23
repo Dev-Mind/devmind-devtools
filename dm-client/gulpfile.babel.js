@@ -86,22 +86,12 @@ gulp.task('styles', () => {
 
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
-    'app/styles/**/*.scss',
-    'app/styles/**/*.css'
+    'app/src/app.scss',
+    'app/src/**/*.css'
   ])
     .pipe($.newer('build/.tmp/styles'))
     .pipe($.sourcemaps.init())
-    .pipe($.sass({
-      precision: 10
-    }).on('error', $.sass.logError))
-    // Remove any unused CSS
-    .pipe($.if('*.css', $.uncss({
-      html: [
-        'app/index.html'
-      ],
-      // CSS Selectors for UnCSS to ignore
-      ignore: []
-    })))
+    .pipe($.sass().on('error', $.sass.logError))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('build/.tmp/styles'))
     // Concatenate and minify styles
@@ -114,13 +104,9 @@ gulp.task('styles', () => {
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
 // `.babelrc` file.
-gulp.task('scripts', ['vendors-scripts'], () =>
+gulp.task('scripts', () =>
     gulp.src([
-      // Note: Since we are not using useref in the scripts build pipeline,
-      //       you need to explicitly list your scripts here in the right order
-      //       to be correctly concatenated
       './app/src/**/*.js'
-      // Other scripts
     ])
       .pipe($.newer('build/.tmp/scripts'))
       .pipe($.sourcemaps.init())
@@ -157,13 +143,16 @@ gulp.task('vendors-scripts', () => {
 });
 
 // Scan your HTML for assets & optimize them
+gulp.task('html-template', () => {
+  return gulp.src('app/src/**/*.html').pipe(gulp.dest('build/.tmp'));
+});
+
 gulp.task('html', () => {
-  return gulp.src('app/**/*.html')
+  return gulp.src(['app/*.html', 'app/src/**/*.html'])
     .pipe($.useref({
       searchPath: '{build/.tmp,app}',
       noAssets: true
     }))
-
     // Minify any HTML
     .pipe($.if('*.html', $.htmlmin({
       removeComments: true,
@@ -185,15 +174,15 @@ gulp.task('html', () => {
 gulp.task('clean', () => del(['build/.tmp', 'build/dist/*', '!build/dist/.git'], {dot: true}));
 
 // Watch files for changes & reload
-gulp.task('watch', ['scripts', 'styles'], () => {
-  gulp.watch(['app/**/*.html'], reload);
-  gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/src/**/*.js'], ['lint', 'scripts']);
+gulp.task('watch', ['scripts', 'styles', 'html-template'], () => {
+  gulp.watch(['app/**/*.html'], ['html-template', reload]);
+  gulp.watch(['app/src/**/*.{scss,css}'], ['styles', reload]);
+  gulp.watch(['app/**/*.js'], ['lint', 'scripts']);
   gulp.watch(['app/images/**/*'], reload);
 });
 
 // Watch files for changes & reload
-gulp.task('serve', ['scripts', 'styles', 'watch'], () => {
+gulp.task('serve', ['vendors-scripts', 'scripts', 'styles', 'watch'], () => {
   browserSync({
     notify: false,
     // Customize the Browsersync console logging prefix
@@ -229,7 +218,7 @@ gulp.task('serve:dist', ['default'], () =>
 gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
-    ['lint', 'html', 'scripts', 'images', 'copy'],
+    ['lint', 'html', 'vendors-scripts', 'scripts', 'images', 'copy'],
     'generate-service-worker',
     cb
   )

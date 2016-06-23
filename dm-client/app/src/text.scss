@@ -1,0 +1,68 @@
+@import 'common';
+
+$text_size_mobile : 13px;
+$text_size_screen : 15px;
+
+$h1_mobile_fontsize: 27px;
+$h2_mobile_fontsize: 19px;
+$h1_screen_fontsize: 45px;
+$h2_screen_fontsize: 35px;
+
+h1, h2, h3 {
+  font-weight: 100 !important;
+}
+
+.dm_lead {
+  font-weight: 300;
+}
+
+.dm_lead-center {
+  text-align: center;
+}
+
+.dm_lead-right {
+  float: right;
+}
+
+.dm_lead-left {
+  text-align: left;
+}
+
+@media (max-width: $dm_max-width_mobile) {
+  html{
+    font-size: $text_size_mobile;
+  }
+
+  h1, h1 > a {
+    font-size: $h1_mobile_fontsize !important;
+    line-height: ($h1_mobile_fontsize) !important;
+  }
+  h2, h2 > a {
+    font-size: $h2_mobile_fontsize !important;
+    line-height: ($h2_mobile_fontsize + 3) !important;
+  }
+  .dm_lead, .dm_lead > a {
+    font-size: $text_size_mobile + 3 !important;
+    line-height: ($text_size_mobile + 6) !important;
+  }
+}
+
+@media (min-width: ($dm_max-width_mobile + 1)) {
+  html{
+    font-size: $text_size_screen;
+  }
+
+  h1, h1 > a {
+    font-size: $h1_screen_fontsize !important;
+    line-height: ($h1_screen_fontsize + 3) !important;
+  }
+  h2, h2 > a {
+    font-size: $h2_screen_fontsize !important;
+    line-height: ($h2_screen_fontsize + 3) !important;
+  }
+  .dm_lead, .dm_lead > a {
+    font-size: $text_size_screen+3 !important;
+    line-height: ($text_size_screen+6) !important;
+  }
+}
+

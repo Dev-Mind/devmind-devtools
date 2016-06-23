@@ -1,8 +1,7 @@
 devmind:
   storage:
-    directory: classpath:raw/
-    sessionFilename: sessions.json
-    speakerFilename: speakers.json
+    sessionFilename: classpath:sessions.json
+    speakerFilename: classpath:speakers.json
 
 # Active the server compression for the JS scripts and stylesheets.
 server:

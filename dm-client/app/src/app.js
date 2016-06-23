@@ -2,23 +2,27 @@
  * In this class we register the controllers used in our pages
  */
 import {SessionCtrl} from './session/session.js';
+import {SessionDetailCtrl} from './session/session-detail.js';
 import {SpeakerCtrl} from './speaker/speaker.js';
 
 /* eslint-env browser */
 export class Application {
 
   constructor() {
-    this.controllers = new Map();
+    this.components = new Map();
 
     if (!self.fetch) {
       console.error('This app used the fetch API to load data, but your browser don\'t support this feature. Add a pollyfill');
     }
     this._initServiceWorkers();
 
-    // Register all the controllers
+    // Register all the components
     this._registerComponent('session', new SessionCtrl(), 'session/session.html');
+    this._registerComponent('session-detail', new SessionDetailCtrl(), 'session/session-detail.html');
     this._registerComponent('speaker', new SpeakerCtrl(), 'speaker/speaker.html');
-    
+
+    // Session list is loaded by default
+    this.go('session');
   }
 
   /**
@@ -84,17 +88,21 @@ export class Application {
    * @private
    */
   _registerComponent(name, ctrl, view) {
-    this.controllers.set(name, {
+    this.components.set(name, {
       controller: ctrl,
       view: view
     });
   }
 
-  onLoad(){
-    console.log('Page is loaded')
-  }
-
-  go(target){
-    console.log(target)
+  /**
+   * Load a template in the main page
+   * @param {string} target component name
+   */
+  go(target, ...args) {
+    let component = this.components.get(target);
+    fetch(component.view).then(response => {
+      response.text().then(html => window.document.getElementById('dmContent').innerHTML = html);
+    });
+    component.controller.init(args);
   }
 }
