@@ -17,12 +17,33 @@ export class Application {
     this._initServiceWorkers();
 
     // Register all the components
-    this._registerComponent('session', new SessionCtrl(), 'session/session.html');
-    this._registerComponent('session-detail', new SessionDetailCtrl(), 'session/session-detail.html');
-    this._registerComponent('speaker', new SpeakerCtrl(), 'speaker/speaker.html');
+    this._registerComponent('session', '(session)', new SessionCtrl(), 'session/session.html');
+    this._registerComponent('session-detail', '(session/)(\\w+)', new SessionDetailCtrl(), 'session/session-detail.html');
+    this._registerComponent('speaker', '(speaker)', new SpeakerCtrl(), 'speaker/speaker.html');
 
-    // Session list is loaded by default
-    this.go('session');
+    this._initUrl();
+  }
+
+  /**
+   * If user refresh a screen the component name is read in the URL. The default one is
+   * session compoenent
+   * @private
+   */
+  _initUrl() {
+    let hash = window.location.hash;
+    let target = hash ? hash.substr(1, hash.length) : 'session';
+    let go;
+
+    // Mini router
+    this.components.forEach((value, key) => {
+      // If pattern match we know the target
+      if (target.match(value.pattern)) {
+        let args = target.split('/');
+        args[0] = key;
+        go = args;
+      }
+    });
+    this.go(go ? go : 'session');
   }
 
   /**
@@ -83,26 +104,30 @@ export class Application {
   /**
    * Register a new controller and a view to be able to load them later.
    * @param {string} name of the component
+   * @param {string} pattern to be able to mach with URL
    * @param {Object} ctrl used by the component
    * @param {string} view path
    * @private
    */
-  _registerComponent(name, ctrl, view) {
+  _registerComponent(name, pattern, ctrl, view) {
     this.components.set(name, {
       controller: ctrl,
+      pattern: pattern,
       view: view
     });
   }
 
   /**
    * Load a template in the main page
-   * @param {string} target component name
+   * @param {Array} args component name and all the options
    */
-  go(target, ...args) {
+  go(args) {
+    args = args instanceof Array ? args : [args];
+    let [target, ...options] = args;
     let component = this.components.get(target);
     fetch(component.view).then(response => {
       response.text().then(html => window.document.getElementById('dmContent').innerHTML = html);
     });
-    component.controller.init(args);
+    component.controller.init(options);
   }
 }

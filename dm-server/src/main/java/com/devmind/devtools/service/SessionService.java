@@ -27,4 +27,16 @@ public class SessionService {
     public List<Session> findAll() {
         return sessionJsonFileLoader.load();
     }
+
+    /**
+     * Read a session by id
+     */
+    public Session findById(String id) {
+        return sessionJsonFileLoader
+                .load()
+                .stream()
+                .filter(s -> id.equals(s.getId()))
+                .findFirst()
+                .orElse(null);
+    }
 }

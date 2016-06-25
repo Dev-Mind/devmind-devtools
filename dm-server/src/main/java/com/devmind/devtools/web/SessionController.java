@@ -5,6 +5,7 @@ import java.util.List;
 import com.devmind.devtools.model.Session;
 import com.devmind.devtools.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +23,12 @@ public class SessionController {
     public List<Session> getAllSessions() {
         return sessionService.findAll();
     }
+
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public Session getSession(@PathVariable("id") String id) {
+        return sessionService.findById(id);
+    }
+
 
 }

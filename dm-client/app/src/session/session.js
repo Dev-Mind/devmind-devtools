@@ -3,10 +3,6 @@
  */
 export class SessionCtrl {
 
-  constructor() {
-    this.init();
-  }
-
   /**
    * Call server to load sessions
    */
@@ -34,11 +30,11 @@ export class SessionCtrl {
           speakers += `${speaker.firstname} ${speaker.lastname} `;
         });
 
-        lines += `<div class="dm_session__item">
-          <a href="#session/${session.id}" onClick="app.go('session-detail', ${session.id})">${session.title}</a>
-          <p class="dm_session__time">de ${session.start} à ${session.end}</p>
-          <p>${session.summary}</p>
-          <p class="dm_session__speaker">${speakers}</p>
+        lines += `<div class="dm_list__item">
+          <a class="dm_lead" href="#session/${session.id}" onClick="app.go(['session-detail', ${session.id}])">${session.title}</a>
+          <p class="dm_list__time">de ${session.start} à ${session.end}</p>
+          <p class="dm_list__summary">${session.summary}</p>
+          <p class="dm_list__speaker">${speakers}</p>
       </div>`;
       });
     }

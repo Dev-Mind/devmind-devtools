@@ -62,10 +62,10 @@
 <!-- endbuild -->
 
 <script>
-    console.log('AAA',window.document.getElementById('dmContent'))
     var app;
     System.import('./scripts/app.js').then(
             function(module){
+                console.log('App is loaded');
                 app = new module.Application();
             },
             function(e){
