@@ -20,7 +20,7 @@ public class Test {
     @org.junit.Test
     public void test(){
         Assertions.assertThat(resourceLoader).isNotNull();
-        Resource resource = resourceLoader.getResource("raw/sessions.json");
+        Resource resource = resourceLoader.getResource("classpath:sessions.json");
         Assertions.assertThat(resource.exists()).isTrue();
     }
 }

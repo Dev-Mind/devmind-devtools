@@ -50,4 +50,12 @@ public class DevMindProperties {
         this.sessionFilename = sessionFilename;
         return this;
     }
+
+    public ResourceLoader getResourceLoader() {
+        return resourceLoader;
+    }
+
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 }

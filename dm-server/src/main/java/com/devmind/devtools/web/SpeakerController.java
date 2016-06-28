@@ -18,7 +18,6 @@ public class SpeakerController {
     @Autowired
     private SpeakerService speakerService;
 
-
     @RequestMapping
     @ResponseBody
     public List<Speaker> getAllSeakers() {

@@ -115,7 +115,6 @@ gulp.task('scripts', () =>
       }))
       .pipe($.sourcemaps.write())
       .pipe(gulp.dest('build/.tmp/scripts'))
-      .pipe($.concat('main.min.js'))
       .pipe($.uglify({preserveComments: 'some'}))
       // Output files
       .pipe($.size({title: 'scripts'}))
@@ -127,19 +126,12 @@ gulp.task('scripts', () =>
 gulp.task('vendors-scripts', () => {
   return gulp.src(
     [
-      'node_modules/babel-polyfill/dist/polyfill.js',
-      'node_modules/systemjs/dist/system.js',
-      'node_modules/es6-module-loader/dist/es6-module-loader.js'
+      'node_modules/babel-polyfill/dist/polyfill.min.js',
+      'node_modules/systemjs/dist/system.js'
     ])
     .pipe($.newer('build/.tmp/scripts/vendors'))
     .pipe(gulp.dest('build/.tmp/scripts/vendors'))
-    .pipe($.sourcemaps.init())
-    .pipe($.concat('vendors.min.js'))
-    .pipe($.uglify())
-    // Output files
-    .pipe($.size({title: 'scripts'}))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest('build/dist/scripts'));
+    .pipe(gulp.dest('build/dist/scripts/vendors'));
 });
 
 // Scan your HTML for assets & optimize them
@@ -204,7 +196,7 @@ gulp.task('serve:dist', ['default'], () =>
     notify: false,
     logPrefix: 'WSK',
     // Allow scroll syncing across breakpoints
-    scrollElementMapping: ['main', '.mdl-layout'],
+    scrollElementMapping: ['main'],
     // Run as an https by uncommenting 'https: true'
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
