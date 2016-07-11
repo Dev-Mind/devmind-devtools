@@ -1,4 +1,4 @@
-# Squelete de webapp (Spring Boot / appli JS)
+# Squelette de webapp (Spring Boot / appli JS)
 
 ![Dev-Mind](dm-client/app/images/logo_new.png)
 
