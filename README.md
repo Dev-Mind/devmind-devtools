@@ -2,7 +2,7 @@
 
 ![Dev-Mind](dm-client/app/images/logo_new.png)
 
-Ce projet est là pour illustrer l'article sur le même sujet sur le blog [http://javamind-fr.blogspot.fr/](http://javamind-fr.blogspot.fr/).
+Ce projet est là pour illustrer l'article sur Spring Dev Tools sur le blog [http://javamind-fr.blogspot.fr/](http://javamind-fr.blogspot.fr/).
 
 En gros je partage ce starter qui m'aide à initier une webapp Spring Boot. Il existe plusieurs stratégies pour intégrer une application web à une application. Personnellement je préfère développer les écrans web dans un module séparer et utiliser Spring Dev Tools pour optimiser l'expérience de développement et recharger automatiquement ma webapp sans avoir à redémarrer sans cesse un serveur quelconque.
 
